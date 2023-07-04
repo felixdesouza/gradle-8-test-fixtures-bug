@@ -1,0 +1,24 @@
+apply plugin: 'java'
+apply plugin: 'jvm-test-suite'
+
+repositories {
+    mavenCentral()
+}
+
+testing {
+    suites {
+        test {
+            useJUnitJupiter()
+            dependencies {
+                implementation 'org.assertj:assertj-core:3.24.2'
+            }
+        }
+    }
+}
+
+// alphabetical ordering seems to interfere here, if we used `s` instead of `t`, the check passes just fine
+def testImplHolder = configurations.create("uasdf")
+
+def testCopy = configurations.testImplementation.copy()
+configurations.add(testCopy)
+testImplHolder.extendsFrom(testCopy)
